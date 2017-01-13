@@ -1,0 +1,40 @@
+
+declare var loki;
+
+module Annonces2
+{
+    export class Database
+    {
+        db:any;
+        constructor()
+        {
+            this.db = new loki('example.db');
+        }
+
+        collection<T>()
+        {
+            return new Collection<T>(this.db);
+        }
+    }
+
+    export class Collection<T>
+    {
+        constructor(private db:any)
+        {}
+
+        findOne(parameters:any):T
+        {
+            return <T> this.db.findOne(parameters);
+        }
+
+        find(parameters:any):T[]
+        {
+            return <T[]> this.db.find(parameters);
+        }
+
+        insert(t:T):void
+        {
+            this.db.insert(t);
+        }
+    }
+}
