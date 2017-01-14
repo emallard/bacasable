@@ -1,5 +1,4 @@
-import {NavigateurBacASable} from '../coeur/bacasable';
-import {ApplicationClient} from '../coeur/kernel';
+import {NavigateurBacASable, ApplicationClient} from '../coeur/bacasable';
 import * as Pages from '../client/allPages';
 
 export class TestAjouterAnnonce

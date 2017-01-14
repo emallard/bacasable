@@ -8,7 +8,7 @@
             "name": "Launch Program",
             "type": "node2",
             "request": "launch",
-            "program": "${workspaceRoot}/serveur/test.ts",
+            "program": "${workspaceRoot}/tests/test.ts",
             "cwd": "${workspaceRoot}",
             "outFiles": ["${workspaceRoot}/build/**/*.js"],
             "sourceMaps": true

@@ -1,6 +1,6 @@
 
 import {RechercheService, RechercheServiceIn, RechercheServiceOut, Annonce} from '../commun/services'
-import {AnnoncesRouteurServeur} from '../commun/routeurServeur'
+import {AnnoncesRouteurServeur} from '../commun/services'
 
 
 export class RechercheServiceImpl extends RechercheService

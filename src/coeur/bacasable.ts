@@ -1,5 +1,5 @@
 import { Routeur, Lien, Redirection} from './routage'
-import { Kernel, INavigateur, ApplicationClient } from './kernel'
+import { Kernel } from './kernel'
 
 export class NavigateurBacASable implements INavigateur
 {
@@ -78,9 +78,9 @@ class ServeurBacASable
 export class ApplicationServeur
 {
     routeurServeur:Routeur;
-    injectionServeur:Injection;
+    injectionServeur:Implementations;
 
-    constructor(routeurServeur:Routeur, injectionServeur:Injection)
+    init(routeurServeur:Routeur, injectionServeur:Implementations)
     {
         this.routeurServeur = routeurServeur;
         this.injectionServeur = injectionServeur;
@@ -95,9 +95,9 @@ export class ApplicationServeur
     }
 }
 
-export class Injection
+export class Implementations
 {
-    items:ItemInjection[] = [];
+    items:ItemImplementations[] = [];
 
     ajouterImplementation<U, T extends U>(u : {new():U}, t : {new():T})
     {
@@ -120,7 +120,7 @@ export class Injection
     }
 }
 
-export class ItemInjection
+export class ItemImplementations
 {
     typeBase : { new() : any };
     typeConcret : {new() : any};
@@ -185,4 +185,76 @@ export class BacASable
         appClient.setServeur(serveur);  
 */
     }
+}
+
+
+export interface IWebService<T, U>
+{
+    executer(t:T):U;
+}
+
+export class WebService<T, U> implements IWebService<T, U>
+{
+    executer(t:T):U{
+        throw '_';
+    }
+}
+
+
+
+export interface INavigateur
+{
+    location():string;
+    setlocation(_url:string);
+    appelerWebService(url:string, parameters:any, succes:(reponse:any)=>void) : any;
+    //appelerWebService<T extends IWebService<U,V>, U, V>(webserviceType:new () => T, u:U) : V;
+}
+
+
+export class ApplicationClient
+{
+    routeurClient:Routeur;
+    routeurServeur:Routeur;
+    navigateur:INavigateur;
+    page:any;
+
+    init(routeurClient:Routeur, routeurServeur:Routeur)
+    {
+        this.routeurClient = routeurClient;
+        this.routeurServeur = routeurServeur;
+    }
+
+    onload(navigateur:INavigateur)
+    {
+        this.navigateur = navigateur;
+        var location = navigateur.location();
+        if (location != undefined)
+            this.page = this.routeurClient.instancier(location);
+    }
+    
+    LienVers<T>(c: {new(): T; }) : Lien<T>
+    {
+        return this.routeurClient.obtenirLien(c);
+    }
+
+    RedirigerVers<T>(c: {new(): T; }) : Redirection<T>
+    {
+        var lien = this.routeurClient.obtenirRedirection(c);
+        this.navigateur.setlocation(lien.url)
+        return lien;
+    }
+
+    RedirigerVers2<T, U>(c: {new(): T; } ,parametres:U) : Lien<T>
+    {
+        var lien = this.routeurClient.obtenirLien(c);
+        this.navigateur.setlocation(lien.url)
+        return lien;
+    }
+
+    AppelerWebService<T, U>(w:{new():WebService<T,U>}, t:T, succes : (u:U) => void)
+    {
+        var lien = this.routeurServeur.obtenirLien(w);
+        this.navigateur.appelerWebService(lien.url, t, succes);
+    }
+    
 }

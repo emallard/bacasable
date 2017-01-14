@@ -1,18 +1,18 @@
-import {NavigateurBacASable} from '../coeur/bacasable';
-import {ApplicationClient} from '../coeur/kernel';
+import {NavigateurBacASable, ApplicationClient} from '../coeur/bacasable';
 import * as Pages from '../client/allPages';
+import {TestBase} from './test'
 
-export class TestRecherche
+export class TestRecherche extends TestBase
 {
-    test(nav:NavigateurBacASable, applicationClient:ApplicationClient)
+    test()
     {
-        var pageAccueil = nav.suivreLien(applicationClient.LienVers(Pages.PageAccueil));
+        var pageAccueil = this.navigateur.suivreLien(this.applicationClient.LienVers(Pages.PageAccueil));
         
         pageAccueil.lieu = 'Paris';
-        var pageRecherche = nav.suivre(pageAccueil.chercher());
+        var pageRecherche = this.navigateur.suivre(pageAccueil.chercher());
         
         pageRecherche.chercher();
         
-        var pageVoirAnnonce = nav.suivreLien(pageRecherche.resultats[0].lien);
+        var pageVoirAnnonce = this.navigateur.suivreLien(pageRecherche.resultats[0].lien);
     }
 }

@@ -1,6 +1,17 @@
 
-import { WebService, WIn, WService } from '../coeur/webservice'
+import { WebService } from '../coeur/bacasable'
+import {Routeur} from '../coeur/routage';
+import * as Services from './services';
 
+
+export class AnnoncesRouteurServeur extends Routeur
+{
+    constructor()
+    {
+        super();
+        this.ajouterRoute('/api/recherche', Services.RechercheService);
+    }
+}
 
 export class RechercheServiceIn
 {
@@ -14,8 +25,6 @@ export class RechercheServiceOut
 {
     annonces:Annonce[];
 }
-
-export var WRechercheService = new WService(RechercheServiceIn, RechercheServiceOut);
 
 export class RechercheService extends WebService<RechercheServiceIn, RechercheServiceOut>
 {

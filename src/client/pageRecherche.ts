@@ -2,7 +2,7 @@ import {LienVers, RedirigerVers, AppelerWebService} from '../coeur/kernel';
 import {Redirection, IRoutable, Lien} from '../coeur/routage';
 import * as Pages from './allPages';
 import * as Services from '../commun/services';
-import { Kernel, INavigateur } from '../coeur/kernel'
+import { Kernel } from '../coeur/kernel'
 
 export class PageRechercheQuery
 {

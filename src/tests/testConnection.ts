@@ -1,27 +1,27 @@
-import {NavigateurBacASable} from '../coeur/bacasable';
-import {ApplicationClient} from '../coeur/kernel';
-import * as Pages from '../client/allPages';
+import {NavigateurBacASable, ApplicationClient} from '../coeur/bacasable';
 import {Redirection, Lien} from '../coeur/routage';
+import * as Pages from '../client/allPages';
+import {TestBase} from './test'
 
-export class TestRecherche
+export class TestConnection extends TestBase
 {
 
-    test(nav:NavigateurBacASable, applicationClient:ApplicationClient)
+    test()
     {
-        var pageAccueil = nav.suivreLien(applicationClient.LienVers(Pages.PageAccueil));
-        var pageConnection = nav.suivreLien(pageAccueil.lienSeConnecter);
+        var pageAccueil = this.navigateur.suivreLien(this.applicationClient.LienVers(Pages.PageAccueil));
+        var pageConnection = this.navigateur.suivreLien(pageAccueil.lienSeConnecter);
 
         pageConnection.utilisateur = 'etienne';
         pageConnection.motDePasse = 'biiiiip';
         
-        var accueilConnecté = nav.suivre(<Redirection<Pages.PageAccueilConnecté>> pageConnection.seConnecter());
+        var accueilConnecté = this.navigateur.suivre(<Redirection<Pages.PageAccueilConnecté>> pageConnection.seConnecter());
     }
 
 
-    testEchecConnexion(nav:NavigateurBacASable, applicationClient:ApplicationClient)
+    testEchecConnexion()
     {
-        var pageAccueil = nav.suivreLien(applicationClient.LienVers(Pages.PageAccueil));
-        var pageConnection = nav.suivreLien(pageAccueil.lienSeConnecter);
+        var pageAccueil = this.navigateur.suivreLien(this.applicationClient.LienVers(Pages.PageAccueil));
+        var pageConnection = this.navigateur.suivreLien(pageAccueil.lienSeConnecter);
 
         pageConnection.utilisateur = 'etienne';
         pageConnection.motDePasse = 'tryagain';
