@@ -22,3 +22,8 @@ export function AppelerWebService<T, U>(w:{new():WebService<T,U>}, t:T, succes :
 {
     Kernel.applicationClient.AppelerWebService(w, t, succes);
 }
+
+export async function AppelerWebServiceAsync<T, U>(w:{new():WebService<T,U>}, t:T) : Promise<U>
+{
+    return Kernel.applicationClient.AppelerWebServiceAsync(w, t);
+}

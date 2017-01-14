@@ -6,7 +6,6 @@
     "command": "tsc",
     "isBuildCommand": true,
     "isWatching": true,
-    //"args": ["-w", "-p", ""],
     "args": ["-w", "-p", "."],
     "showOutput": "silent",
     //"problemMatcher": "$tsc"

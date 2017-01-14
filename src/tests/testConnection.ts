@@ -6,7 +6,7 @@ import {TestBase} from './test'
 export class TestConnection extends TestBase
 {
 
-    test()
+    async test()
     {
         var pageAccueil = this.navigateur.suivreLien(this.applicationClient.LienVers(Pages.PageAccueil));
         var pageConnection = this.navigateur.suivreLien(pageAccueil.lienSeConnecter);
@@ -14,11 +14,13 @@ export class TestConnection extends TestBase
         pageConnection.utilisateur = 'etienne';
         pageConnection.motDePasse = 'biiiiip';
         
-        var accueilConnecté = this.navigateur.suivre(<Redirection<Pages.PageAccueilConnecté>> pageConnection.seConnecter());
+        var resultat = await pageConnection.seConnecter();
+
+        var accueilConnecté = this.navigateur.suivre(<Redirection<Pages.PageAccueilConnecté>> (await pageConnection.seConnecter()));
     }
 
 
-    testEchecConnexion()
+    async testEchecConnexion()
     {
         var pageAccueil = this.navigateur.suivreLien(this.applicationClient.LienVers(Pages.PageAccueil));
         var pageConnection = this.navigateur.suivreLien(pageAccueil.lienSeConnecter);
@@ -26,6 +28,6 @@ export class TestConnection extends TestBase
         pageConnection.utilisateur = 'etienne';
         pageConnection.motDePasse = 'tryagain';
         
-        var accueilConnecté = <Pages.PageConnection> pageConnection.seConnecter();
+        var accueilConnecté = <Pages.PageConnection> await pageConnection.seConnecter();
     }
 }

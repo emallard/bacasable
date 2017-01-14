@@ -4,14 +4,14 @@ import {TestBase} from './test'
 
 export class TestRecherche extends TestBase
 {
-    test()
+    async test()
     {
         var pageAccueil = this.navigateur.suivreLien(this.applicationClient.LienVers(Pages.PageAccueil));
         
         pageAccueil.lieu = 'Paris';
         var pageRecherche = this.navigateur.suivre(pageAccueil.chercher());
         
-        pageRecherche.chercher();
+        await pageRecherche.chercher();
         
         var pageVoirAnnonce = this.navigateur.suivreLien(pageRecherche.resultats[0].lien);
     }

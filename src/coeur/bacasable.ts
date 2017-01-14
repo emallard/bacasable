@@ -51,6 +51,11 @@ export class NavigateurBacASable implements INavigateur
     {
         return this.internet.envoyer(url, parameters, succes);
     }
+
+    appelerWebServiceAsync(url:string, parameters:any) : Promise<any>
+    {
+        return this.internet.envoyerAsync(url, parameters);
+    }
 }
 
 
@@ -70,6 +75,11 @@ class ServeurBacASable
     }
 
     recevoir(url:string, parameters:any):any
+    {
+        return this.applicationServeur.recevoir(url, parameters);
+    }
+
+    recevoirAsync(url:string, parameters:any):Promise<any>
     {
         return this.applicationServeur.recevoir(url, parameters);
     }
@@ -141,6 +151,11 @@ class InternetBacASable
         if (succes != null)
             succes(reponse);
     }
+
+    envoyerAsync(url:string, parameters:any) : Promise<any>
+    {
+        return this.serveur.recevoirAsync(url, parameters);
+    }
 }
 
 export class BacASable
@@ -207,7 +222,7 @@ export interface INavigateur
     location():string;
     setlocation(_url:string);
     appelerWebService(url:string, parameters:any, succes:(reponse:any)=>void) : void;
-    //appelerWebService<T extends IWebService<U,V>, U, V>(webserviceType:new () => T, u:U) : V;
+    appelerWebServiceAsync(url:string, parameters:any) : Promise<any>;
 }
 
 
@@ -257,6 +272,12 @@ export class ApplicationClient
         this.navigateur.appelerWebService(lien.url, t, succes);
     }
     
+    AppelerWebServiceAsync<T, U>(w:{new():WebService<T,U>}, t:T) : Promise<U>
+    {
+        var lien = this.routeurServeur.obtenirLien(w);
+        return this.navigateur.appelerWebServiceAsync(lien.url, t);
+    }
+    
 }
 
 export class Lanceur 
@@ -279,6 +300,10 @@ export class Lanceur
 
         this.applicationClient.onload(this.navigateur);
     }
+}
+
+function timeout(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 export class NavigateurReel implements INavigateur
@@ -305,4 +330,30 @@ export class NavigateurReel implements INavigateur
         };
         req.send(null);
     }
+
+    appelerWebServiceAsync(url:string, parameters:any) : Promise<any>
+    {
+        console.log('appelerWebServiceAsync');
+        return new Promise((_resolve,_reject) => {  
+            var req = new XMLHttpRequest();
+            req.open('POST', 'http://www.mozilla.org/', true);
+            req.onreadystatechange = function (aEvt) {
+                if (req.readyState == 4) {
+                    if(req.status == 200)
+                    {
+                        console.log('resolve');
+                        _resolve(req.responseText);
+                    }   
+                    else
+                    {
+                        console.log('reject');
+                        _reject("Erreur pendant le chargement de la page.\n");
+                    }
+                }
+            };
+            req.send(null);
+        });
+    }
+
+    
 }

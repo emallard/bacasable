@@ -1,4 +1,4 @@
-import {LienVers, RedirigerVers, AppelerWebService} from '../coeur/kernel';
+import {LienVers, RedirigerVers, AppelerWebService, AppelerWebServiceAsync} from '../coeur/kernel';
 import {Redirection, IRoutable, Lien} from '../coeur/routage';
 import * as Pages from './allPages';
 import * as Services from '../commun/services';
@@ -29,28 +29,25 @@ export class PageRecherche implements IRoutable<PageRechercheQuery>
         this.auteur = query.auteur;
     }
 
-    chercher()
+    async chercher()
     {
         this.resultats = [];
         
-        AppelerWebService(
+        var resultatRecherche = await AppelerWebServiceAsync(
             Services.RechercheService, 
             {
                 auteur:this.auteur, 
                 contenu:this.contenu, 
                 categorie:this.categorie, 
                 lieu:this.lieu,
-            },
-            resultatRecherche =>
-            {
-                resultatRecherche.annonces.forEach(a => 
-                {
-                    var composant = new ComposantResultatRecherche();
-                    composant.SetAnnonce(a);
-                    this.resultats.push(composant);
-                });
-            }
-        );
+        });
+
+        resultatRecherche.annonces.forEach(a => 
+        {
+            var composant = new ComposantResultatRecherche();
+            composant.SetAnnonce(a);
+            this.resultats.push(composant);
+        });
     }
 }
 

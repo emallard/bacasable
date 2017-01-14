@@ -10,5 +10,6 @@
         "**/*.ts"
     ],
     "exclude": [
+        "/home/etienne/bacasable/node_modules/**/*.ts"
     ]
 }
