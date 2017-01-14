@@ -5,10 +5,19 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch Program",
+            "name": "Launch Test",
             "type": "node2",
             "request": "launch",
             "program": "${workspaceRoot}/tests/test.ts",
+            "cwd": "${workspaceRoot}",
+            "outFiles": ["${workspaceRoot}/build/**/*.js"],
+            "sourceMaps": true
+        },
+        {
+            "name": "Launch Node",
+            "type": "node2",
+            "request": "launch",
+            "program": "${workspaceRoot}/node/start.ts",
             "cwd": "${workspaceRoot}",
             "outFiles": ["${workspaceRoot}/build/**/*.js"],
             "sourceMaps": true

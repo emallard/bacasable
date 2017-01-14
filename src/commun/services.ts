@@ -41,17 +41,38 @@ export class RechercheService extends WebService<RechercheServiceIn, RechercheSe
         lieu:string;
     }
 
-    export interface ISEnregistrerService
-    {
-        executer(utilisateur:string, motDePasse:string);
-    }
+export class SEnregistrerServiceIn
+{
+    utilisateur:string;
+    motDePasse:string;
+}
 
-    export interface ISeConnecterRequete
-    {
-        executer(utilisateur:string, motDePasse:string);
-    }
+export class SEnregistrerServiceOut 
+{
+}
 
-    export interface IMesAnnoncesRequete
-    {
-        executer() : Annonce[];
-    }
+export class SEnregistrerService extends WebService<SEnregistrerServiceIn, SEnregistrerServiceOut> 
+{
+}
+
+
+export class SeConnecterServiceIn
+{
+    utilisateur:string;
+    motDePasse:string;
+}
+
+export class SeConnecterServiceOut 
+{
+    ok:boolean;
+}
+
+export class SeConnecterService extends WebService<SeConnecterServiceIn, SeConnecterServiceOut> 
+{
+}
+
+
+export interface IMesAnnoncesRequete
+{
+    executer() : Annonce[];
+}

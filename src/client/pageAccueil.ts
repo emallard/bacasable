@@ -4,10 +4,10 @@ import * as Pages from './allPages';
 
 export default class PageAccueil
 {
-    auteur:string;
-    contenu:string;
-    categorie:string;
-    lieu:string;
+    auteur:string = null;
+    contenu:string = null;
+    categorie:string = null;
+    lieu:string = null;
 
     lienSeConnecter = LienVers(Pages.PageConnection);
     

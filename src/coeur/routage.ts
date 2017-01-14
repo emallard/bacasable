@@ -42,6 +42,9 @@ export class Routeur
             return (r.pageConstructor == c);
         });
 
+        if (found == null)
+            throw "Exception Obtenir Lien : " + c + " non trouvé";
+
         var lien = new Lien<T>();
         lien.create = c;
         lien.url = found.url;
@@ -54,6 +57,9 @@ export class Routeur
             return (r.pageConstructor == c);
         });
 
+        if (found == null)
+            throw "Exception Obtenir Redirection : " + c + " non trouvé";
+
         var lien = new Redirection<T>();
         lien.create = c;
         lien.url = found.url;
@@ -63,6 +69,10 @@ export class Routeur
     instancier(_url:string):any
     {
         var found = this.routes.find(r => r.url == _url);
+
+        if (found == null)
+            throw "Exception Route non trouvée : " + _url;
+
         var page = new found.pageConstructor();
         return page;
                 /*

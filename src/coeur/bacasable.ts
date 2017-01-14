@@ -47,7 +47,7 @@ export class NavigateurBacASable implements INavigateur
     location() { return this._location; }
     setlocation(location:string) {this._location = location}
 
-    appelerWebService(url:string, parameters:any, succes:(reponse:any)=>void) : any
+    appelerWebService(url:string, parameters:any, succes:(reponse:any)=>void) : void
     {
         return this.internet.envoyer(url, parameters, succes);
     }
@@ -206,7 +206,7 @@ export interface INavigateur
 {
     location():string;
     setlocation(_url:string);
-    appelerWebService(url:string, parameters:any, succes:(reponse:any)=>void) : any;
+    appelerWebService(url:string, parameters:any, succes:(reponse:any)=>void) : void;
     //appelerWebService<T extends IWebService<U,V>, U, V>(webserviceType:new () => T, u:U) : V;
 }
 
@@ -257,4 +257,52 @@ export class ApplicationClient
         this.navigateur.appelerWebService(lien.url, t, succes);
     }
     
+}
+
+export class Lanceur 
+{
+    private classe:{new() : ApplicationClient}
+    applicationClient : ApplicationClient;
+    navigateur: NavigateurReel;
+    constructor(classe:{new() : ApplicationClient})
+    {
+        this.classe = classe;
+    }
+
+    lancer()
+    {
+        this.navigateur = new NavigateurReel();
+        this.applicationClient = new this.classe();
+
+        Kernel.navigateur = this.navigateur;
+        Kernel.applicationClient = this.applicationClient;
+
+        this.applicationClient.onload(this.navigateur);
+    }
+}
+
+export class NavigateurReel implements INavigateur
+{
+    location():string
+    {
+        return window.location.pathname;
+    }
+    setlocation(_url:string)
+    {
+        window.location.pathname = _url;
+    }
+    appelerWebService(url:string, parameters:any, succes:(reponse:any)=>void) : void
+    {
+        var req = new XMLHttpRequest();
+        req.open('GET', 'http://www.mozilla.org/', true);
+        req.onreadystatechange = function (aEvt) {
+        if (req.readyState == 4) {
+            if(req.status == 200)
+                succes(req.responseText);
+            else
+                alert("Erreur pendant le chargement de la page.\n");
+        }
+        };
+        req.send(null);
+    }
 }
