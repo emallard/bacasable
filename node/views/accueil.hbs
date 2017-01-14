@@ -1,0 +1,51 @@
+<html>
+	<head>
+		<title>Bac·a·sable</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link href="/libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+	</head>
+	<body>
+
+		Ceci est la page d'accueil !<br>
+		Bienvenue, utilisez la barre de recherche pour trouver une annonce.
+		
+		<hr>
+		Menu: <br/>
+		<a data-bind="attr : { href : lienSeConnecter.url }">Se Connecter</a><br>
+		<hr>
+
+		<form>
+			<div class="form-group">
+				<label>auteur</label>
+				<input type="text" class="form-control" placeholder="Auteur"
+					data-bind="value: auteur.valeur">
+			</div>
+			<div class="form-group">
+				<label>contenu</label>
+				<input type="text" class="form-control" placeholder="Contenu"
+				data-bind="value: contenu.valeur">
+			</div>
+			<div class="form-group">
+				<label>catégorie</label>
+				<input type="text" class="form-control" placeholder="Categorie"
+				data-bind="value: categorie.valeur">
+			</div>
+			<div class="form-group">
+				<label>lieu</label>
+				<input type="text" class="form-control" placeholder="Lieu"
+				data-bind="value: lieu.valeur">
+			</div>
+			<button class="btn btn-default" data-bind="click: chercher" >Chercher</button>
+		</form>
+
+
+		<script src="/libs/vendor.js"></script>
+		<script src="/libs/bundle.js"></script>
+		<script src="/libs/knockout-3.4.1.min.js"></script>
+		<script>
+			bundle.lanceur.lancer();
+			ko.applyBindings(bundle.lanceur.applicationClient.page);
+		</script>
+	</body>
+</html>

@@ -1,0 +1,49 @@
+<html>
+	<head>
+		<title>Bac·a·sable</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link href="/libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+	</head>
+	<body>
+
+		Recherche
+
+		<form>
+			<div class="form-group">
+				<label>auteur</label>
+				<input type="text" class="form-control" placeholder="Auteur"
+					data-bind="value: auteur.valeur">
+			</div>
+			<div class="form-group">
+				<label>contenu</label>
+				<input type="text" class="form-control" placeholder="Contenu"
+				data-bind="value: contenu.valeur">
+			</div>
+			<div class="form-group">
+				<label>catégorie</label>
+				<input type="text" class="form-control" placeholder="Categorie"
+				data-bind="value: categorie.valeur">
+			</div>
+			<div class="form-group">
+				<label>lieu</label>
+				<input type="text" class="form-control" placeholder="Lieu"
+				data-bind="value: lieu.valeur">
+			</div>
+			<button class="btn btn-default" data-bind="click: chercher" >Chercher</button>
+		</form>
+
+		Resultats
+
+
+		<div id="body-wrapper">
+		</div>
+
+		<script src="/libs/vendor.js"></script>
+		<script src="/libs/bundle.js"></script>
+		<script>
+			bundle.lanceur.lancer();
+			document.getElementById('body-wrapper').innerText=JSON.stringify(bundle.lanceur.applicationClient.page);
+		</script>
+	</body>
+</html>

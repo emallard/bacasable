@@ -1,8 +1,9 @@
 import {LienVers, RedirigerVers, AppelerWebService, AppelerWebServiceAsync} from '../coeur/kernel';
 import {Redirection, IRoutable, Lien} from '../coeur/routage';
+import {Input} from './input';
 import * as Pages from './allPages';
 import * as Services from '../commun/services';
-import { Kernel } from '../coeur/kernel'
+
 
 export class PageRechercheQuery
 {
@@ -14,19 +15,19 @@ export class PageRechercheQuery
 
 export class PageRecherche implements IRoutable<PageRechercheQuery>
 {
-    auteur:string;
-    contenu:string;
-    categorie:string;
-    lieu:string;
+    auteur = new Input<string>();
+    contenu = new Input<string>();
+    categorie = new Input<string>();
+    lieu = new Input<string>();
 
     resultats:ComposantResultatRecherche[];
 
     construire(query:PageRechercheQuery)
     {
-        this.lieu = query.lieu;
-        this.categorie = query.categorie;
-        this.contenu = query.contenu;
-        this.auteur = query.auteur;
+        this.lieu.valeur = query.lieu;
+        this.categorie.valeur = query.categorie;
+        this.contenu.valeur = query.contenu;
+        this.auteur.valeur = query.auteur;
     }
 
     async chercher()
@@ -36,10 +37,10 @@ export class PageRecherche implements IRoutable<PageRechercheQuery>
         var resultatRecherche = await AppelerWebServiceAsync(
             Services.RechercheService, 
             {
-                auteur:this.auteur, 
-                contenu:this.contenu, 
-                categorie:this.categorie, 
-                lieu:this.lieu,
+                auteur:this.auteur.valeur, 
+                contenu:this.contenu.valeur, 
+                categorie:this.categorie.valeur, 
+                lieu:this.lieu.valeur,
         });
 
         resultatRecherche.annonces.forEach(a => 

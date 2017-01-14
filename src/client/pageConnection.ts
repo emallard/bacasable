@@ -25,15 +25,5 @@ export default class PageConnection
         else
             this.message = "Erreur de connection";
             return this;
-        /*
-        AppelerWebService(
-            Services.SeConnecterService,
-            {utilisateur:this.utilisateur, 
-            motDePasse:this.motDePasse},
-            (resultat) =>
-            {
-                
-            }
-        */
     }
 }

@@ -1,0 +1,33 @@
+<html>
+	<head>
+		<title>Bac·a·sable</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link href="/libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+	</head>
+	<body>
+
+		PAGE DE CONNECTION
+
+		<form>
+			<div class="form-group">
+				<label>auteur</label>
+				<input type="text" class="form-control" placeholder="Utilisateur"
+					data-bind="value: utilisateur">
+			</div>
+			<div class="form-group">
+				<label>contenu</label>
+				<input type="text" class="form-control" placeholder="Mot De Passe"
+				data-bind="value: motDePasse">
+			</div>
+		</form>
+
+		<script src="/libs/vendor.js"></script>
+		<script src="/libs/bundle.js"></script>
+		<script src="/libs/knockout-3.4.1.min.js"></script>
+		
+		<script>
+			bundle.lanceur.lancer();
+		</script>
+	</body>
+</html>

@@ -15,10 +15,15 @@ let app = express();
 let appServeur = new AnnoncesApplicationServeur();
 let appClient = new AnnoncesApplicationClient();
 
+
+// association views : pages
+
+
 // enregistrement des routes client
 appClient.routeurClient.routes.forEach(r => {
     app.get(r.url, function (req, res) {
-        res.render('home.hbs');
+        //res.render('debug.hbs');
+        res.render(r.url.substring(1) + '.hbs');
     });
 })
 

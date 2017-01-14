@@ -64,12 +64,28 @@ var bundle =
 /******/ 	__webpack_require__.p = "";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 310);
+/******/ 	return __webpack_require__(__webpack_require__.s = 311);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 303:
+/***/ 118:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Input = function Input() {
+  _classCallCheck(this, Input);
+};
+
+exports.Input = Input;
+
+/***/ }),
+
+/***/ 304:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -105,26 +121,28 @@ var __awaiter = undefined && undefined.__awaiter || function (thisArg, _argument
 };
 var kernel_1 = __webpack_require__(61);
 var Pages = __webpack_require__(48);
+var input_1 = __webpack_require__(118);
 
 var PageAccueil = function () {
     function PageAccueil() {
         _classCallCheck(this, PageAccueil);
 
-        this.auteur = null;
-        this.contenu = null;
-        this.categorie = null;
-        this.lieu = null;
+        this.auteur = new input_1.Input();
+        this.contenu = new input_1.Input();
+        this.categorie = new input_1.Input();
+        this.lieu = new input_1.Input();
         this.lienSeConnecter = kernel_1.LienVers(Pages.PageConnection);
+        this.contenu.valeur = 'a';
     }
 
     _createClass(PageAccueil, [{
         key: "chercher",
         value: function chercher() {
             var parametres = {
-                auteur: this.auteur,
-                contenu: this.contenu,
-                categorie: this.categorie,
-                lieu: this.lieu
+                auteur: this.auteur.valeur,
+                contenu: this.contenu.valeur,
+                categorie: this.categorie.valeur,
+                lieu: this.lieu.valeur
             };
             return kernel_1.RedirigerVers(Pages.PageRecherche); //, parametres);
         }
@@ -182,7 +200,7 @@ exports.default = PageAccueil;
 
 /***/ }),
 
-/***/ 304:
+/***/ 305:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -215,7 +233,7 @@ exports.default = PageAccueilConnecté;
 
 /***/ }),
 
-/***/ 305:
+/***/ 306:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -311,7 +329,7 @@ exports.default = PageConnection;
 
 /***/ }),
 
-/***/ 306:
+/***/ 307:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -339,7 +357,7 @@ exports.default = PageContact;
 
 /***/ }),
 
-/***/ 307:
+/***/ 308:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -374,6 +392,7 @@ var __awaiter = undefined && undefined.__awaiter || function (thisArg, _argument
     });
 };
 var kernel_1 = __webpack_require__(61);
+var input_1 = __webpack_require__(118);
 var Pages = __webpack_require__(48);
 var Services = __webpack_require__(49);
 
@@ -386,15 +405,20 @@ exports.PageRechercheQuery = PageRechercheQuery;
 var PageRecherche = function () {
     function PageRecherche() {
         _classCallCheck(this, PageRecherche);
+
+        this.auteur = new input_1.Input();
+        this.contenu = new input_1.Input();
+        this.categorie = new input_1.Input();
+        this.lieu = new input_1.Input();
     }
 
     _createClass(PageRecherche, [{
         key: "construire",
         value: function construire(query) {
-            this.lieu = query.lieu;
-            this.categorie = query.categorie;
-            this.contenu = query.contenu;
-            this.auteur = query.auteur;
+            this.lieu.valeur = query.lieu;
+            this.categorie.valeur = query.categorie;
+            this.contenu.valeur = query.contenu;
+            this.auteur.valeur = query.auteur;
         }
     }, {
         key: "chercher",
@@ -410,10 +434,10 @@ var PageRecherche = function () {
                                 this.resultats = [];
                                 _context.next = 3;
                                 return kernel_1.AppelerWebServiceAsync(Services.RechercheService, {
-                                    auteur: this.auteur,
-                                    contenu: this.contenu,
-                                    categorie: this.categorie,
-                                    lieu: this.lieu
+                                    auteur: this.auteur.valeur,
+                                    contenu: this.contenu.valeur,
+                                    categorie: this.categorie.valeur,
+                                    lieu: this.lieu.valeur
                                 });
 
                             case 3:
@@ -459,7 +483,7 @@ exports.ComposantResultatRecherche = ComposantResultatRecherche;
 
 /***/ }),
 
-/***/ 308:
+/***/ 309:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -488,7 +512,7 @@ exports.default = PageVoirAnnonce;
 
 /***/ }),
 
-/***/ 310:
+/***/ 311:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -557,19 +581,19 @@ exports.lanceur = new bacasable_1.Lanceur(AnnoncesApplicationClient);
 "use strict";
 
 
-var pageAccueil_1 = __webpack_require__(303);
+var pageAccueil_1 = __webpack_require__(304);
 exports.PageAccueil = pageAccueil_1.default;
-var pageAccueilConnect_1 = __webpack_require__(304);
+var pageAccueilConnect_1 = __webpack_require__(305);
 exports.PageAccueilConnecté = pageAccueilConnect_1.default;
-var pageConnection_1 = __webpack_require__(305);
+var pageConnection_1 = __webpack_require__(306);
 exports.PageConnection = pageConnection_1.default;
-var pageContact_1 = __webpack_require__(306);
+var pageContact_1 = __webpack_require__(307);
 exports.PageContact = pageContact_1.default;
-var pageRecherche_1 = __webpack_require__(307);
+var pageRecherche_1 = __webpack_require__(308);
 exports.PageRecherche = pageRecherche_1.PageRecherche;
 exports.PageRechercheQuery = pageRecherche_1.PageRechercheQuery;
 exports.ComposantResultatRecherche = pageRecherche_1.ComposantResultatRecherche;
-var pageVoirAnnonce_1 = __webpack_require__(308);
+var pageVoirAnnonce_1 = __webpack_require__(309);
 exports.PageVoirAnnonce = pageVoirAnnonce_1.default;
 
 /***/ }),

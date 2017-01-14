@@ -8,7 +8,7 @@ export class TestRecherche extends TestBase
     {
         var pageAccueil = this.navigateur.suivreLien(this.applicationClient.LienVers(Pages.PageAccueil));
         
-        pageAccueil.lieu = 'Paris';
+        pageAccueil.lieu.valeur = 'Paris';
         var pageRecherche = this.navigateur.suivre(pageAccueil.chercher());
         
         await pageRecherche.chercher();
