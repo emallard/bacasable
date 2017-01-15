@@ -26,7 +26,7 @@ export default class PageAccueil
             lieu:this.lieu.valeur };
         return RedirigerVers(Pages.PageRecherche);//, parametres);
     }
-
+/*
     async test() : Promise<void>
     {
         console.log('a');
@@ -57,7 +57,7 @@ export default class PageAccueil
             req.send(null);
         });
     }
-
+*/
         
 }
 

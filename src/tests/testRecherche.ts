@@ -6,7 +6,9 @@ export class TestRecherche extends TestBase
 {
     async test()
     {
-        var pageAccueil = this.navigateur.suivreLien(this.applicationClient.LienVers(Pages.PageAccueil));
+        var lien = this.applicationClient.LienVers(Pages.PageAccueil);
+        console.log(lien.url);
+        var pageAccueil = this.navigateur.suivreLien(lien);
         
         pageAccueil.lieu.valeur = 'Paris';
         var pageRecherche = this.navigateur.suivre(pageAccueil.chercher());

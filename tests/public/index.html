@@ -1,0 +1,42 @@
+<html>
+
+<body>
+
+<div id="messages">
+</div>
+
+<button id="boutonLancer"> Lancer</button>
+
+<script src="socket.io.min.js"></script>
+<script>
+
+window.onload = function()
+{
+    var socket = io();
+    socket.on('chat message', function(msg){
+        var li = document.createElement('li');
+        li.innerText = msg;
+        document.getElementById('messages').appendChild(li);
+    });
+
+    boutonLancer.onclick = function()
+    {
+        var req = new XMLHttpRequest();
+        req.open('POST', '/lancer', true);
+        req.onreadystatechange = function (aEvt) {
+            if (req.readyState == 4) {
+                if (req.status == 200) { }
+                else {
+                    alert("Erreur pendant le chargement de la page.\n");
+                }
+            }
+        };
+        req.send({nom : 'TestRecherche'});
+    }
+};
+
+
+</script>
+
+</body>
+</html>

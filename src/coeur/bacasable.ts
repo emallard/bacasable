@@ -3,10 +3,18 @@ import { Kernel } from './kernel'
 
 export class NavigateurBacASable implements INavigateur
 {
+    bacasable:BacASable;
     internet:InternetBacASable;
-    _location:string;
     applicationClient:ApplicationClient;
-    
+
+    _location:string;
+    page:any;
+
+    setBacASable(bacasable:BacASable)
+    {
+        this.bacasable = bacasable;
+    }
+
     setInternet(internet:InternetBacASable)
     {
         this.internet = internet;
@@ -18,17 +26,28 @@ export class NavigateurBacASable implements INavigateur
         this.applicationClient.onload(this);
     }
 
+    changerPage(page:any):any
+    {
+        this.bacasable.logPage(page);
+        this.page = page;
+        return page;
+    }
+
     suivreLien<T>(lien: Lien<T>) : T
     {
+        this.bacasable.logSuivre(lien.url);
+
         this._location = lien.url;
         var page = new lien.create();
-        return page;
+        return this.changerPage(page);
     }
 
     suivre<T>(redirection: Redirection<T>) : T
     {
+        this.bacasable.logSuivre(redirection.url);
+
         var page = new redirection.create();
-        return page;
+        return this.changerPage(page);
     }
 
     /*
@@ -61,8 +80,14 @@ export class NavigateurBacASable implements INavigateur
 
 class ServeurBacASable
 {
+    bacasable:BacASable;
     internet:InternetBacASable;
     applicationServeur:ApplicationServeur;
+
+    setBacASable(bacasable:BacASable)
+    {
+        this.bacasable = bacasable;
+    }
 
     setInternet(internet:InternetBacASable)
     {
@@ -139,7 +164,12 @@ export class ItemImplementations
 class InternetBacASable
 {
     serveur:ServeurBacASable;
-    
+    bacasable:BacASable;
+
+    setBacASable(bacasable:BacASable)
+    {
+        this.bacasable = bacasable;
+    }
     setServeur(serveur:ServeurBacASable)
     {
         this.serveur = serveur;
@@ -152,9 +182,12 @@ class InternetBacASable
             succes(reponse);
     }
 
-    envoyerAsync(url:string, parameters:any) : Promise<any>
+    async envoyerAsync(url:string, parameters:any) : Promise<any>
     {
-        return this.serveur.recevoirAsync(url, parameters);
+        this.bacasable.logAppel(url, parameters);
+        var reponse = await this.serveur.recevoirAsync(url, parameters);
+        this.bacasable.logReponse(reponse, url, parameters);
+        return reponse;
     }
 }
 
@@ -172,16 +205,19 @@ export class BacASable
         this.applicationClient = applicationClient;
         this.applicationServeur = applicationServeur;
         
-        var internet = new InternetBacASable();
-        this.navigateur = new NavigateurBacASable();
-        this.navigateur.setInternet(internet);
+        this.internet = new InternetBacASable();
+        this.internet.setBacASable(this);
         
-        var serveur = new ServeurBacASable();
-        serveur.setInternet(internet);
-        internet.setServeur(serveur);
-        serveur.charger(this.applicationServeur);
+        this.navigateur = new NavigateurBacASable();
+        this.navigateur.setBacASable(this);
+        this.navigateur.setInternet(this.internet);
 
-        this.navigateur.setInternet(internet);
+        var serveur = new ServeurBacASable();
+        serveur.setBacASable(this);
+        serveur.setInternet(this.internet);
+        serveur.charger(this.applicationServeur);
+        this.internet.setServeur(serveur);
+
         this.navigateur.charger(this.applicationClient);
         
         Kernel.navigateur = this.navigateur;
@@ -200,6 +236,11 @@ export class BacASable
         appClient.setServeur(serveur);  
 */
     }
+
+    logSuivre : (url:string)=>void = (url)=>{};
+    logPage : (page:any)=>void = (page)=>{};
+    logAppel : (url:any, parameters:any)=>void = (url:any, parameters:any)=>{};
+    logReponse : (reponse:any, url:any, parameters:any)=>void = (reponse:any, url:any, parameters:any)=>{};
 }
 
 
@@ -232,7 +273,7 @@ export class ApplicationClient
     routeurServeur:Routeur;
     navigateur:INavigateur;
     page:any;
-
+    
     init(routeurClient:Routeur, routeurServeur:Routeur)
     {
         this.routeurClient = routeurClient;
@@ -319,7 +360,7 @@ export class NavigateurReel implements INavigateur
     appelerWebService(url:string, parameters:any, succes:(reponse:any)=>void) : void
     {
         var req = new XMLHttpRequest();
-        req.open('GET', 'http://www.mozilla.org/', true);
+        req.open('POST', url, true);
         req.onreadystatechange = function (aEvt) {
         if (req.readyState == 4) {
             if(req.status == 200)
@@ -336,7 +377,7 @@ export class NavigateurReel implements INavigateur
         console.log('appelerWebServiceAsync');
         return new Promise((_resolve,_reject) => {  
             var req = new XMLHttpRequest();
-            req.open('POST', 'http://www.mozilla.org/', true);
+            req.open('POST', url, true);
             req.onreadystatechange = function (aEvt) {
                 if (req.readyState == 4) {
                     if(req.status == 200)
