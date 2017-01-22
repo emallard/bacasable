@@ -13,6 +13,7 @@ export class TestRecherche extends TestBase
         pageAccueil.lieu.valeur = 'Paris';
         var pageRecherche = this.navigateur.suivre(pageAccueil.chercher());
         
+        pageRecherche.lieu.valeur = 'Bordeaux';
         await pageRecherche.chercher();
         
         var pageVoirAnnonce = this.navigateur.suivreLien(pageRecherche.resultats[0].lien);
